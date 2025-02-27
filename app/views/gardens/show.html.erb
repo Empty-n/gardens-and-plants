@@ -10,18 +10,40 @@
       <div class="col-4">
         <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= plant.image_url %>')">
           <%= plant.name %>
-          <%= link_to "+", plant_path(plant), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "card-remove-link" %>
+          <%= link_to "+", plant_path(plant), data: {turbo_method: :delete, turbo_confirm: "are you sure ?"}, class:"link-delete-card"  %>
+          <%= link_to new_plant_completion_path(plant) do %>
+            <i class="fa-solid fa-check custom"></i>
+          <% end %>
         </div>
+
+        <!-- Section pour afficher les completions du plant -->
+        <% if plant.completions.any? %>
+          <div class="completions mt-3">
+            <h5>Completions:</h5>
+            <% plant.completions.each do |completion| %>
+              <div class="completion-item">
+                <span>
+                  <em><%= completion.chore.name %></em> - Completed on <%= completion.created_at.strftime('%B %d, %Y') %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p>No completions yet.</p>
+        <% end %>
       </div>
     <% end %>
   </div>
+
   <div class="row my-5 justify-content-center">
-    <div class="col-4">
+    <div class="col-4 shadow-lg p-3">
       <h4>Add a plant</h4>
       <%= simple_form_for [@garden, @plant] do |f| %>
         <%= f.input :name, placeholder: "Palm tree" %>
-        <%= f.input :image_url, placeholder: "https://some_nice_image_found_on_google.jpg" %>
-        <%= f.submit "Add", class: "btn btn-primary" %>
+        <%= f.input :image_url, placeholder: "a beautiful image" %>
+        <div class="text-center">
+          <%= f.submit "Add", class: "btn btn-primary px-4 py-2 rounded-pill" %>
+        </div>
       <% end %>
     </div>
   </div>

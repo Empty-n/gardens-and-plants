@@ -17,6 +17,7 @@ class PlantsController < ApplicationController
     redirect_to garden_path(@plant.garden), status: :see_other
   end
 
+
   private
 
   def plant_params
